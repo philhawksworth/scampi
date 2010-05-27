@@ -61,6 +61,26 @@ scampi.eventHandlers = function() {
 		$("#legend ol.notes").append("<li><textarea></textarea><a href='#' class='noteControl saveNote'>save</a><a href='#' class='noteControl discardNote'>cancel</a></li>");
 	});
 
+	// sync notes
+	$("a.saveNotes").click(function() {
+		$(".notes li").each(function(index){
+
+			var data = {
+				id:$(this).attr('id'),
+				name:$(this).text(),
+				description:$(this).text(),
+				x:$(this).attr('data-pos-x'),
+				y:$(this).attr('data-pos-y'),
+				'page.id':$('div#stage').attr('page')
+			};
+			
+			$.ajax({
+			  type: 'POST',
+			  url: '/annotation/update',
+			  data: data
+			});
+		});
+	});
    
     // $("#droppable").droppable({
     //   drop: function() { alert('dropped'); }

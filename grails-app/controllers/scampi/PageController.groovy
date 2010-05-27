@@ -27,7 +27,8 @@ class PageController {
 		pageInstance.imageUri = imageUri
         if (pageInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'page.label', default: 'Page'), pageInstance.id])}"
-            redirect(action: "show", id: pageInstance.id)
+			Project project = Project.get(params.project.id)
+            redirect(uri:"/project/${project.name}/${pageInstance.id}")
         }
         else {
             render(view: "create", model: [pageInstance: pageInstance])

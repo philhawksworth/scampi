@@ -74,8 +74,14 @@ class AnnotationController {
             }
         }
         else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'annotation.label', default: 'Annotation'), params.id])}"
-            redirect(action: "list")
+            annotationInstance = new Annotation(params)
+	        if (annotationInstance.save(flush: true)) {
+	            flash.message = "${message(code: 'default.created.message', args: [message(code: 'annotation.label', default: 'Annotation'), annotationInstance.id])}"
+	            redirect(action: "show", id: annotationInstance.id)
+	        }
+	        else {
+	            render(view: "create", model: [annotationInstance: annotationInstance])
+	        }
         }
     }
 
